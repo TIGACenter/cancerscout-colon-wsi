@@ -10,6 +10,19 @@ It reproduces the WSI panels of the paper (Fig. 5D-F, Extended Data Figs 9 and 1
 Figs 8 and 9) and Supplementary Table 6. `docs/REPRODUCE.md` maps every panel and table to the
 script and inputs that produce it; `docs/METHODS.md` describes the methods as implemented.
 
+## Approach
+
+Each slide is cut into tissue tiles at 20x, every tile is embedded by a frozen encoder, and a
+CLAM-MB model learns the slide-level label from the bag of tile embeddings alone: no tile-level
+annotation is used. The model's attention shows which regions drive each prediction.
+
+![Supplementary Fig. 8](docs/img/SuppFig8_attention_by_subgroup.jpg)
+
+*Supplementary Fig. 8. Attention maps of the CONCH models on held-out discovery-cohort slides, one
+slide per proteomic subgroup (rows, C1-C6). Left: H&E; then one map per task (proteomic subgroup,
+CPTAC subtype, tumor detection, MSI status), titled with the slide's true label. Warm colors: high
+attention.*
+
 ## Data and model availability
 
 | What | Status | Where it goes |
@@ -70,6 +83,22 @@ GPU=0 bash scripts/run_all.sh
 | Attention maps | `11_heatmaps.sh` | models, features, slides | Fig. 5D; Supplementary Figs 8, 9 |
 
 Each step checks its inputs and names the README to read when one is missing.
+
+### From slides to trained models
+
+The training part of the pipeline, step by step (discovery cohort; `GPU` and `ENCODERS` as above):
+
+```bash
+COHORTS=cancerscout bash scripts/01_patch.sh  # tissue mask, 256 px tiles at 20x -> work/patches/cancerscout/
+bash scripts/02_features.sh                   # frozen tile embeddings -> work/features/cancerscout/<encoder>/
+bash scripts/03_splits.sh                     # ten train/validation/test draws per endpoint, inside train.csv -> work/splits/
+bash scripts/04_train.sh                      # CLAM-MB, ten models per endpoint and encoder -> models/clam/
+bash scripts/05_eval_heldout.sh               # every model on the held-out set (eval.csv); per-model thresholds
+```
+
+The endpoints are the rows of `configs/endpoints.tsv`; remove rows to train a subset. Training
+settings are in `scripts/04_train.sh` and `docs/METHODS.md`. A retrain follows the paper's
+procedure but does not give bit-identical models, because GPU training is not deterministic.
 
 ## Layout
 
