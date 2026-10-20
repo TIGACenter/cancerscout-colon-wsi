@@ -1,0 +1,56 @@
+# base config for publication-figure heatmaps; most fields are overridden per-run via CLI args
+# in create_heatmaps_skip_errors_cancerscout_colon_no_filter.py (ckpt_path, process_list,
+# save_exp_code, int_label_keys, embed_dim, model_name, data_dir, features_dir, preset)
+---
+exp_arguments:
+  n_classes: 2
+  save_exp_code: HEATMAP_publication_figs
+  raw_save_dir: WORK/heatmaps/raw_cancerscout
+  production_save_dir: WORK/heatmaps/production_cancerscout
+  batch_size: 64
+data_arguments:
+  data_dir: SLIDES_CS
+  features_dir: WORK/features/cancerscout/conch
+  data_dir_key: source
+  process_list: PLACEHOLDER
+  preset: presets/cancerscout_colon_v2.csv
+  slide_ext: .tiff
+  label_dict:
+    negative: 1
+    positive: 0
+  int_label_keys: false
+patching_arguments:
+  patch_size: 256
+  overlap: 0.0
+  patch_level: 1
+  custom_downsample: 2
+model_arguments:
+  ckpt_path: PLACEHOLDER
+  model_name: conch_v1
+  model_type: clam_mb
+  initiate_fn: initiate_model
+  model_size: small
+  drop_out: true
+  embed_dim: 512
+heatmap_arguments:
+  vis_level: -1
+  alpha: 0.4
+  blank_canvas: false
+  save_orig: true
+  save_ext: jpg
+  use_ref_scores: true
+  blur: false
+  use_center_shift: true
+  use_roi: false
+  calc_heatmap: false
+  binarize: false
+  binary_thresh: -1
+  custom_downsample: 1
+  cmap: jet
+sample_arguments:
+  samples:
+    - name: "topk_high_attention"
+      sample: true
+      seed: 1
+      k: 15
+      mode: topk

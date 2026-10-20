@@ -1,0 +1,54 @@
+# base config for cancerscout-cptac cohort heatmaps at matched 20x (512 px level-0 lattice, StainNet features); per-run fields overridden via CLI args
+---
+exp_arguments:
+  n_classes: 2
+  save_exp_code: HEATMAP_cptac_cohort_figs
+  raw_save_dir: WORK/heatmaps/raw_cptac_20x
+  production_save_dir: WORK/heatmaps/production_cptac_20x
+  batch_size: 64
+data_arguments:
+  data_dir: SLIDES_CPTAC
+  features_dir: WORK/features/cptac/conch_scale20x_stainnet
+  data_dir_key: source
+  process_list: PLACEHOLDER
+  preset: presets/cancerscout_colon_v2.csv
+  slide_ext: .svs
+  label_dict:
+    negative: 1
+    positive: 0
+  int_label_keys: false
+patching_arguments:
+  patch_size: 256
+  overlap: 0.0
+  patch_level: 0
+  custom_downsample: 4   # 1,024 px blocks for a 512 px stride: overlaps averaged, as in the CancerScout maps
+model_arguments:
+  ckpt_path: PLACEHOLDER
+  model_name: conch_v1
+  model_type: clam_mb
+  initiate_fn: initiate_model
+  model_size: small
+  drop_out: true
+  embed_dim: 512
+heatmap_arguments:
+  vis_level: -1
+  alpha: 0.4
+  blank_canvas: false
+  save_orig: true
+  save_ext: jpg
+  use_ref_scores: true
+  blur: false
+  use_center_shift: true
+  use_roi: false
+  calc_heatmap: false
+  binarize: false
+  binary_thresh: -1
+  custom_downsample: 1
+  cmap: jet
+sample_arguments:
+  samples:
+    - name: "topk_high_attention"
+      sample: true
+      seed: 1
+      k: 15
+      mode: topk

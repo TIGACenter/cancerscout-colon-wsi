@@ -1,0 +1,17 @@
+key	dataset	multiclass	int_labels	cptac_eval
+tumor_vs_normal	tumor_vs_normal	0	0	1
+sex	sex	0	0	0
+grading	grading	1	0	0
+ln_metastasis	ln_metastasis	0	0	0
+distant_metastasis	distant_metastasis	0	0	0
+cptac	cptac	1	0	1
+msi_status	msi_status	0	0	1
+msi_status_genetic	msi_status_genetic	0	0	1
+msi_status_consensus	msi_status_consensus	0	0	1
+braf	braf	0	0	0
+k_n_ras	k_n_ras	0	0	0
+tp53	tp53	0	0	0
+apc	apc	0	0	0
+proteomic_classification	proteomic_classification	1	1	0
+p_g_c2c3c5_cin_cases	proteomic_groups_c2c3c5_only_cin_cases	1	1	0
+cin_vs_mcml	cin_vs_mcml	0	0	0

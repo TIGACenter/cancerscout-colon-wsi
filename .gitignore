@@ -1,0 +1,12 @@
+# data, models and outputs stay out of git (see data/README.md and models/README.md)
+data/cancerscout/*
+!data/cancerscout/README.md
+data/cptac/*
+!data/cptac/README.md
+models/*
+!models/README.md
+work/
+configs/paths.env
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

@@ -1,0 +1,35 @@
+# Held-out example slides shown in Fig. 5D and Supplementary Fig. 8, one per proteomic subgroup
+# code, given as released slide identifiers (file name without extension). Fill in before running
+# scripts/11_heatmaps.sh and figures/fig5D_suppfig8_attention_grids.py.
+cancerscout_subgroup_examples:
+  1: REPLACE_WITH_RELEASED_SLIDE_ID
+  2: REPLACE_WITH_RELEASED_SLIDE_ID   # the Fig. 5D example
+  3: REPLACE_WITH_RELEASED_SLIDE_ID
+  4: REPLACE_WITH_RELEASED_SLIDE_ID
+  5: REPLACE_WITH_RELEASED_SLIDE_ID
+  6: REPLACE_WITH_RELEASED_SLIDE_ID
+# CPTAC slides for Supplementary Fig. 9 (public TCIA identifiers)
+cptac_examples:
+  - 09CO019-b913f361-c5c2-4e49-91ca-719bd8
+  - 01CO015-b873f54a-5a86-4dca-90f9-715820
+  - 05CO041-ce47b803-bd11-473f-b4a2-f99643
+  - 11CO036-2739ad00-dcb2-4485-ac9b-b77851
+  - 05CO033-a4ae882e-5378-4acb-bd16-ddd4e8
+# Cross-validation model whose attention is shown for each example (fold index), as in the
+# published Fig. 5D and Supplementary Fig. 8: per slide and task, the model that gave the true
+# class the highest probability. Keys are subgroup codes as above.
+cancerscout_example_folds:
+  1: {proteomic_classification: 5, cptac: 0, tumor_vs_normal: 9, msi_status_consensus: 1}
+  2: {proteomic_classification: 8, cptac: 6, tumor_vs_normal: 2, msi_status_consensus: 0}
+  3: {proteomic_classification: 3, cptac: 8, tumor_vs_normal: 5, msi_status_consensus: 2}
+  4: {proteomic_classification: 5, cptac: 1, tumor_vs_normal: 2, msi_status_consensus: 9}
+  5: {proteomic_classification: 8, cptac: 0, tumor_vs_normal: 0, msi_status_consensus: 3}
+  6: {proteomic_classification: 9, cptac: 6, tumor_vs_normal: 1, msi_status_consensus: 0}
+# Horizontal crop (fraction of the slide width) for examples that hold two serial sections side by
+# side: the C5 example is cropped to its left section, the same crop for the H&E and all maps.
+cancerscout_example_crop:
+  5: [0.0, 0.53]
+# Whole-slide thumbnails in the top row of Extended Data Fig. 10A.
+ed10a_thumbnails:
+  cancerscout: [REPLACE_WITH_RELEASED_SLIDE_ID, REPLACE_WITH_RELEASED_SLIDE_ID, REPLACE_WITH_RELEASED_SLIDE_ID, REPLACE_WITH_RELEASED_SLIDE_ID]
+  cptac: [01CO005-59891744-2db3-4541-a86a-7f911f, 01CO013-08071b2d-89b8-4e5a-8ee7-11719b, 01CO014-a8b2aca2-6450-46b4-be95-f4ead8, 01CO014-be2d5946-3452-4003-880a-e0372e]
