@@ -25,12 +25,12 @@ PATCHES_CPTAC = os.path.join(WORK, 'patches', 'cptac')
 FEATURES_CS = os.path.join(WORK, 'features', 'cancerscout')                   # <encoder>/{h5,pt}_files
 FEATURES_CPTAC = os.path.join(WORK, 'features', 'cptac')                      # <encoder>_<condition>/...
 SPLITS = os.path.join(WORK, 'splits')
-RESULTS = os.path.join(MODELS, 'clam')                                         # trained CLAM models (not released)
+RESULTS = os.path.join(MODELS, 'clam')                                         # trained CLAM models (Zenodo, scripts/download_models.sh)
 EVAL_DIR = os.environ.get('CSWSI_EVAL_DIR', os.path.join(WORK, 'eval_results'))
 HEATMAPS = os.path.join(WORK, 'heatmaps')
 TABLES = os.environ.get('CSWSI_TABLES', os.path.join(WORK, 'tables'))
 FIGURES = os.environ.get('CSWSI_FIGURES', os.path.join(WORK, 'figures'))
-STAINNET_WEIGHTS = os.path.join(MODELS, 'stainnet', 'stainnet_final.pt')            # trained StainNet (not released)
+STAINNET_WEIGHTS = os.path.join(MODELS, 'stainnet', 'stainnet_final.pt')            # trained StainNet (Zenodo, scripts/download_models.sh)
 
 for _d in (TABLES, FIGURES):
     os.makedirs(_d, exist_ok=True)

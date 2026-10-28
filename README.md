@@ -30,7 +30,7 @@ attention.*
 | Discovery cohort (CancerScout colon) H&E slides and labels | Deposited in the BioImage Archive, released on publication | `data/cancerscout/` (empty until then; layout in its README) |
 | CPTAC-COAD H&E slides (372 SVS, 66.7 GB) | Public, TCIA, doi:10.7937/TCIA.YZWQ-ZZ63 | `data/cptac/slides/`, via `scripts/00_download_cptac.sh` |
 | CPTAC-COAD labels (MSI status, UMS subtype) | In this repository | `configs/cptac_labels/` |
-| Trained CLAM models and StainNet | Not released | `models/` (layout in its README) |
+| Trained CLAM models (16 endpoints x 3 encoders x 10 models), thresholds and StainNet | Zenodo, DOI in `configs/zenodo.env` (CC BY 4.0) | `models/`, via `scripts/download_models.sh` (see `models/README.md`, `docs/MODELS.md`) |
 | UNI and CONCH encoder weights | Gated on Hugging Face (MahmoodLab) | set `UNI_CKPT_PATH`, `CONCH_CKPT_PATH` |
 
 ## Install
@@ -51,13 +51,14 @@ Every step is a script in `scripts/`, run in order; `GPU` selects the device (de
 features, splits, predictions (`work/eval_results/`), tables (`work/tables/`) and figures
 (`work/figures/`, PDF and PNG).
 
-**CPTAC-COAD only** (public data plus trained models in `models/`):
+**CPTAC-COAD only** (public data and the trained models from Zenodo):
 
 ```bash
 GPU=0 bash scripts/run_cptac.sh
 ```
 
-downloads and verifies the slides, tiles them, embeds them at 20x (raw and StainNet), applies the
+downloads the trained models from Zenodo (`scripts/download_models.sh`), downloads and verifies the
+slides, tiles them, embeds them at 20x (raw and StainNet), applies the
 ten models of every endpoint evaluated on CPTAC, and writes the CPTAC tables (raw vs StainNet tests,
 agreement, threshold transfer) and panels (Fig. 5F, Extended Data Fig. 10B-D, Supplementary Fig. 9).
 
@@ -69,6 +70,7 @@ GPU=0 bash scripts/run_all.sh
 
 | Step | Script | Needs | Output |
 |---|---|---|---|
+| Trained models | `download_models.sh` | network (or `MODEL_ARCHIVES=<dir>`) | `models/clam/`, `models/stainnet/`, checked against `configs/model_archives.sha256` |
 | CPTAC download | `00_download_cptac.sh` | Aspera CLI | 372 SVS, checked against `configs/cptac_manifest.tsv` |
 | Tissue tiling | `01_patch.sh` | slides | 256 px tiles: discovery cohort at 20x (level 1), CPTAC at level 0 (CLAM) |
 | Tile embeddings | `02_features.sh` | discovery cohort | ResNet50 (ImageNet), UNI, CONCH; frozen, 224 px input |
@@ -109,9 +111,9 @@ clam/                 CLAM (Lu et al. 2021), the fork used for this study (GPL-3
 configs/              endpoints, CPTAC labels and file manifest, example slides, path template
 cptac/                CPTAC tile embeddings at the matched 20x field of view
 data/                 cancerscout/ (placeholder until the data release), cptac/ (download target)
-docs/                 METHODS.md, REPRODUCE.md
+docs/                 METHODS.md, REPRODUCE.md, MODELS.md (model card)
 figures/              one script per figure panel
-models/               trained models (not released; layout in models/README.md)
+models/               trained models, downloaded from Zenodo (models/README.md, docs/MODELS.md)
 scripts/              the pipeline, in order (00-11), and the run_cptac.sh / run_all.sh drivers
 stain_normalization/  StainNet and its fixed-statistics Macenko teacher
 cswsi_config.py       every path the Python code reads or writes
@@ -119,13 +121,15 @@ cswsi_config.py       every path the Python code reads or writes
 
 ## License
 
-GPL-3.0 (see `LICENSE`), because the pipeline builds on CLAM. Third-party components, data and
-model weights keep their own licenses; see `NOTICE.md`.
+GPL-3.0 (see `LICENSE`), because the pipeline builds on CLAM. The trained model weights on Zenodo
+are CC BY 4.0. Third-party components, data and model weights keep their own licenses; see
+`NOTICE.md`.
 
 ## Citation
 
 Qoku\*, Ullrich\*, Miranda\* et al. A proteogenomic resource of 1,000 colorectal cancers resolves
-functional tumor states. (In preparation.) Archived version of this code: DOI to be added.
+functional tumor states. (In preparation.) Archived version of this code: DOI to be added. Trained
+models: Zenodo, doi:10.5281/zenodo.23669359.
 
 When using the CPTAC-COAD data, cite the TCIA collection (doi:10.7937/TCIA.YZWQ-ZZ63) with the CPTAC
 acknowledgment given on the collection page.

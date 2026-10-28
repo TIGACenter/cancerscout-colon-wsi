@@ -7,7 +7,12 @@ the training set (results/<experiment>_s1/split_i_results.pkl, written by CLAM a
 training) is stored as test_threshold_best in
 eval_results/EVAL_<held-out run>/summary_best_th_cons.csv, the file compute_numbers.py reads.
 Multiclass endpoints are called by argmax and need no threshold.
+
+The Zenodo model release ships these thresholds as models/clam/thresholds_<encoder>.csv (computed by
+this script from the training runs) instead of the split_<fold>_results.pkl files, which list
+discovery-cohort slides; when the pkl files are absent, the shipped thresholds are used.
 """
+import glob
 import os
 import pickle
 import sys
@@ -26,6 +31,16 @@ for _, e in eps[eps.multiclass == 0].iterrows():
         if not os.path.isdir(res):
             continue
         os.makedirs(out, exist_ok=True)
+        if not os.path.exists(f'{res}/split_0_results.pkl'):
+            shipped = [pd.read_csv(f) for f in glob.glob(f'{cfg.RESULTS}/thresholds_*.csv')]
+            t = pd.concat(shipped) if shipped else pd.DataFrame(columns=['dataset', 'encoder'])
+            t = t[(t.dataset == e.dataset) & (t.encoder == enc)].sort_values('fold')
+            if len(t) != 10:
+                sys.exit(f'no thresholds for {e.dataset} {enc}: neither split pkl files nor thresholds_{enc}.csv')
+            t.rename(columns={'fold': 'folds', 'threshold': 'test_threshold_best'})[['folds', 'test_threshold_best']] \
+                .to_csv(f'{out}/summary_best_th_cons.csv', index=False)
+            print('thresholds (shipped)', e.key, enc)
+            continue
         rows = []
         for fold in range(10):
             d = pickle.load(open(f'{res}/split_{fold}_results.pkl', 'rb'))

@@ -22,7 +22,7 @@ endpoints() { tail -n +2 "$REPO/configs/endpoints.tsv"; }
 need_dir() { [ -d "$1" ] && [ -n "$(ls -A "$1" 2>/dev/null)" ] || { echo "missing or empty: $1 (see $2)" >&2; exit 1; }; }
 need_cancerscout() { need_dir "$CSWSI_SLIDES_CS" data/cancerscout/README.md; need_dir "$CSWSI_LABELS" data/cancerscout/README.md; }
 need_cptac() { need_dir "$CSWSI_SLIDES_CPTAC" data/cptac/README.md; }
-need_models() { need_dir "$MODELS_CLAM" models/README.md; }
+need_models() { need_dir "$MODELS_CLAM" "models/README.md; get them with: bash scripts/download_models.sh"; }
 need_encoders() {
   for enc in $ENCODERS; do
     case $enc in uni) : "${UNI_CKPT_PATH:?set UNI_CKPT_PATH (see README, Encoder weights)}";;

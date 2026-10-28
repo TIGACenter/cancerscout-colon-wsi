@@ -9,7 +9,9 @@
 * **Macenko** normalization (Macenko, M. et al. ISBI 2009), `stain_normalization/macenko.py`.
 * **UNI** (Chen, R. J. et al. Nat. Med. 2024) and **CONCH** (Lu, M. Y. et al. Nat. Med. 2024)
   weights are not redistributed; they are obtained from MahmoodLab on Hugging Face under their own
-  terms.
+  terms. The trained CLAM models on Zenodo contain no encoder weights; those built on UNI or CONCH
+  features need the encoders to be used, under MahmoodLab's terms. The model weights are released under
+  CC BY 4.0.
 * **CPTAC-COAD** tissue slide images (The Cancer Imaging Archive, doi:10.7937/TCIA.YZWQ-ZZ63,
   CC BY 4.0) are not redistributed; `scripts/00_download_cptac.sh` fetches them from TCIA.
   The CPTAC labels in `configs/cptac_labels/` are derived from Vasaikar, S. et al. Proteogenomic
